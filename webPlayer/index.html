@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>预览</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        iframe {
+            width: 100%;
+            height: calc(100vh);
+            border: 0;
+        }
+
+        #controllerBar {
+            background-color: #3a585f;
+            color: white;
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            bottom: 0;
+            margin: 0;
+        }
+
+        #controllerBar{
+        }
+        #controllerBar >p{
+            display: inline;
+        }
+        #controllerBar >select{
+            display: inline;
+        }
+
+    </style>
+    <script src="mousetrap.min.js"></script>
+    <script src="mousetrap-global-bind.min.js"></script>
+</head>
+<body>
+<iframe></iframe>
+<div id="controllerBar">
+    <p>1/1</p>
+    <select></select>
+    <button>强制提交</button>
+</div>
+
+
+<script src="./renderer.js"></script>
+</body>
+</html>
