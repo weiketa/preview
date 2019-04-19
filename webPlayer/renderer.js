@@ -1,13 +1,16 @@
 const {app} = require('electron').remote;
 const webpath = require('../config').webPath;
 const fs = require('fs');
+const path = require('path');
 
 const url = require('../config').serverUrl;
 const iframe = document.querySelector('iframe');
 const p = document.querySelector('div >p');
 const select = document.querySelector('div>select');
 const submit = document.querySelector('div>button');
+const sideBar = document.querySelector('#sideBar');
 
+const sideBarItems = [];
 let coursewares = [];
 let coursewareIndex = 0;
 let submitFlag = 0;
@@ -131,6 +134,42 @@ if (fs.existsSync(`${webpath}/infos.txt`)) {
 
 } else {
 
+}
+
+function showSideBarContent(){
+    fs.readdir(webpath,(err,files)=>{
+        if(err){
+            console.log(err);
+        }else{
+            files.forEach((file,i)=>{
+                let item = document.createElement('div');
+                sideBarItems.push(item);
+                item.onclick = (e)=>{
+                    play(path.join(url,file,'index.html'));
+                    item.className = 'sideBarItem itemSelected';
+                    clearOtherItemsStyle(i);
+                }
+                if(i===0){
+                    play(path.join(url,file,'index.html'));
+                    item.className = 'sideBarItem itemSelected';
+                }else{
+                    item.className = 'sideBarItem';
+                }
+                item.innerText = file;
+                sideBar.appendChild(item);
+            })
+        }
+    })
+}
+
+showSideBarContent();
+
+function clearOtherItemsStyle(index){
+    sideBarItems.forEach((v,i)=>{
+        if(index !== i){
+            sideBarItems[i].className = 'sideBarItem';
+        }
+    })
 }
 
 function current() {

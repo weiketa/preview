@@ -9,10 +9,32 @@
             padding: 0;
         }
 
-        iframe {
+        #sideBar{
+            width: 10%;
+            height: calc(100vh);
+            overflow-y:scroll;
+            overflow-x:hidden;
+            float: left; 
+        }
+
+        .sideBarItem{
+            height: 2rem;
             width: 100%;
+            background:#FFF0F5;
+            cursor: pointer;
+            line-height: 2rem;
+            border: 1px solid white;
+        }
+
+        .itemSelected{
+            background: gray;
+        }
+
+        iframe {
+            width: 90%;
             height: calc(100vh);
             border: 0;
+            float: left;
         }
 
         #controllerBar {
@@ -25,8 +47,6 @@
             margin: 0;
         }
 
-        #controllerBar{
-        }
         #controllerBar >p{
             display: inline;
         }
@@ -39,14 +59,13 @@
     <script src="mousetrap-global-bind.min.js"></script>
 </head>
 <body>
-<iframe></iframe>
-<div id="controllerBar">
-    <p>1/1</p>
-    <select></select>
-    <button>强制提交</button>
-</div>
-
-
-<script src="./renderer.js"></script>
+    <div id="sideBar"></div>
+    <iframe></iframe>
+    <div id="controllerBar">
+        <p>1/1</p>
+        <select></select>
+        <button>强制提交</button>
+    </div>
+    <script src="./renderer.js"></script>
 </body>
 </html>

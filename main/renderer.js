@@ -84,16 +84,16 @@ function open(url) {
             }
         }
 
-        if (fs.existsSync(`${webpath}/infos.txt`)
-            || fs.existsSync(`${webpath}/index.html`)) {
+        // if (fs.existsSync(`${webpath}/infos.txt`)
+            // || fs.existsSync(`${webpath}/index.html`)) {
 
             createWebPlayer();
             history.push(url);
             refreshHistoryDom();
 
-        } else {
-            alert('文件夹中没有info.txt文件，也没有index.html文件，请检查文件夹是否正确？')
-        }
+        // } else {
+            //alert('文件夹中没有info.txt文件，也没有index.html文件，请检查文件夹是否正确？')
+        // }
     });
 }
 
