@@ -7,12 +7,13 @@
         body {
             margin: 0;
             padding: 0;
+            font-family:'微软雅黑';
         }
 
         #sideBar{
             width: 10%;
             height: calc(100vh);
-            overflow-y:scroll;
+            overflow-y:auto;
             overflow-x:hidden;
             float: left; 
         }
@@ -20,14 +21,16 @@
         .sideBarItem{
             height: 2rem;
             width: 100%;
-            background:#FFF0F5;
+            background:#c6ebfe;
             cursor: pointer;
             line-height: 2rem;
             border: 1px solid white;
+            text-align:center;
         }
 
         .itemSelected{
-            background: gray;
+            background: #2073fe;
+            color: white;
         }
 
         iframe {
@@ -41,9 +44,10 @@
             background-color: #3a585f;
             color: white;
             position: absolute;
-            width: 100%;
+            width: 90%;
             text-align: center;
             bottom: 0;
+            right: 0;
             margin: 0;
         }
 
@@ -54,12 +58,67 @@
             display: inline;
         }
 
+        #result{
+            position: absolute;
+            left: calc(10vw);
+            width: 90%;
+            background: #2073fe;
+            top:-154px;
+            transition: top 1s;
+        }
+        #result table{
+            width:100%;
+            margin:0;
+            border:0;
+        }
+        #result th {
+            font-weight:bold;
+            background-color:#c6ebfe;
+            color:#2073fe
+        }
+        #result table,#result th,#result td {
+            font-size:0.95em;
+            text-align:center;
+            padding:4px;
+            border-collapse:collapse;
+        }
+        #result th,#result td {
+            border: 1px solid #ffffff;
+            border-width:1px
+        }
+        #result th {
+            border: 1px solid #c6ebfe;
+            border-width:1px 0 1px 0
+        }
+        #result td {
+            border: 1px solid #eeeeee;
+            border-width:1px 0 1px 0
+        }
+        #result tr {
+            border: 1px solid #ffffff;
+        }
+        #result tr:nth-child(odd){
+            background-color:#f7f7f7;
+        }
+        #result tr:nth-child(even){
+            background-color:#ffffff;
+        }
     </style>
     <script src="mousetrap.min.js"></script>
     <script src="mousetrap-global-bind.min.js"></script>
 </head>
 <body>
     <div id="sideBar"></div>
+    <div id="result">
+            <table>
+                <tr>
+                    <th>题号</th>
+                    <th>结果</th>
+                    <th>你的答案</th>
+                    <th>正确答案</th>
+                </tr>
+            </table>
+    </div>
     <iframe></iframe>
     <div id="controllerBar">
         <p>1/1</p>

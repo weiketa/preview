@@ -115,6 +115,56 @@ function createWebPlayer() {
 
 }
 
+/* ======================================热更新========================================start */
+const {remote} = require('electron');
+let version = remote.app.getVersion();
+
+
+ipcRenderer.on('info',(event,info,detail)=>{
+    switch(info){
+        case "show_update":
+        document.querySelector("#update-info").style.display = "block";
+        document.querySelector("#mask").style.display = 'block';
+        let content = JSON.parse(detail);
+        document.querySelector(".update-content").innerHTML = content;
+        break;
+        case "start_update":
+        document.querySelector(".update-btn").innerText = "";
+        document.querySelector("#update-info img").style.display = 'block';
+        break;
+        case "update_done":
+        document.querySelector("#update-info img").style.display = 'none';
+        document.querySelector(".update-btn").innerText = "完成";
+        setTimeout(()=>{
+            ipcRenderer.send('checkUpdate','end');
+        },500);
+        break;
+    }
+    
+})
+
+window.onload = function(){
+    checkUpdate();
+    // document.querySelector(".version").innerText = "v"+version;
+    document.querySelector("#update-info .update-btn").addEventListener("click",startUpdate);
+    document.querySelector("#update-info .ignore-btn").addEventListener("click",ignoreUpdate);
+}
+
+function checkUpdate(){
+    ipcRenderer.send('checkUpdate','check');
+}
+
+function ignoreUpdate(){
+    document.querySelector("#update-info").style.display = 'none';
+    document.querySelector("#mask").style.display = 'none';
+}
+
+function startUpdate(){
+    ipcRenderer.send('checkUpdate','start');
+    document.querySelector("#update-info .update-btn").removeEventListener("click",startUpdate);
+}
+/* ======================================热更新========================================end */
+
 
 
 

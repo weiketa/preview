@@ -4,7 +4,9 @@
   "description": "A simple web player",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack:mac": "electron-packager . app --darwin --out dist --arch=x64 --overwrite --icon assets/app.icns",
+    "pack:win": "electron-packager . app --win --out dist --arch=x64 --overwrite --icon assets/app.ico"
   },
   "keywords": [
     "Electron",
@@ -22,9 +24,12 @@
     "mime": "^1.3.4",
     "mousetrap": "^1.6.1",
     "rimraf": "^2.5.4",
-    "unzip": "^0.1.11"
+    "unzip": "^0.1.11",
+    "jquery": "^3.3.1",
+    "jquery.nicescroll": "^3.7.6"
   },
   "devDependencies": {
-    "electron": "^4.1.4"
+    "electron": "^4.1.4",
+    "electron-packager": "^13.1.1"
   }
 }

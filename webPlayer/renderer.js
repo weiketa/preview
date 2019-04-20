@@ -9,9 +9,12 @@ const p = document.querySelector('div >p');
 const select = document.querySelector('div>select');
 const submit = document.querySelector('div>button');
 const sideBar = document.querySelector('#sideBar');
+const resultTable = document.querySelector('#result table');
+const result = document.querySelector("#result");
 
 const sideBarItems = [];
 let coursewares = [];
+let resultArr = [];
 let coursewareIndex = 0;
 let submitFlag = 0;
 
@@ -98,6 +101,27 @@ window.addEventListener('message', function (e) {
         submitData();
     } else if (e.data.type === "close") {
         resultFun();
+    } else if(e.data.type === 'answer'){
+        try {
+            let postArr = e.data.data;
+            resultArr.length = 0;
+            postArr.forEach(function(answer,index){
+                let userAnswerContent  = answer.userAnswerContent.map(function(item){return item.text}).join("，");
+                let rightAnswerContent = answer.rightAnswerContent.map(function(item){return item.text}).join("，");
+                let isRight = answer.isRight.map(function(item){return item == 1 ? item = '对' :item = "错"}).join("，");
+                let id  = answer.id+1;
+                resultArr.push({
+                                "id":id,
+                                "userAnswerContent":userAnswerContent,
+                                "rightAnswerContent":rightAnswerContent,
+                                "isRight":isRight
+                            })
+            });
+            showResultData();
+        } catch (error) {
+            alert("数据提交错误");
+        }
+        
     }
 }, false);
 
@@ -105,6 +129,42 @@ submit.onclick = () => {
     submitData();
 }
 
+function showResultData(){
+    clearResultData();
+    if(resultArr.length>0){
+        let resultTop = (resultArr.length+1)*-154+'px';
+        result.style.top = resultTop;
+        resultArr.forEach(v=>{
+            let tr = document.createElement('tr');
+            let td1 = document.createElement('td');
+            let td2 = document.createElement('td');
+            let td3 = document.createElement('td');
+            let td4 = document.createElement('td');
+            td1.innerText = v.id;
+            td2.innerText = v.isRight;
+            td3.innerText = v.userAnswerContent;
+            td4.innerText = v.rightAnswerContent;
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            resultTable.appendChild(tr);
+        }) 
+        setTimeout(()=>{
+            result.style.top = 0;
+        },0)
+    }
+}
+
+function clearResultData(){
+    const trs = document.querySelectorAll('#result tr');
+    trs.forEach((v,i)=>{
+        if(i!==0){
+            console.log('remove')
+            resultTable.removeChild(v);
+        }
+    })
+}
 
 if (fs.existsSync(`${webpath}/infos.txt`)) {
     let infos = fs.readFileSync(`${webpath}/infos.txt`);
@@ -204,8 +264,11 @@ function submitData() {
     if (submitFlag === 1) {
         return;
     }
-    let data = {type: 'resubmitAnswer'};
-    iframe.contentWindow.postMessage(data, '*');
+    // let data = {type: 'resubmitAnswer'};
+    // iframe.contentWindow.postMessage(data, '*');
+
+    let resubmitdata = {type: 'getAnswer'};
+    iframe.contentWindow.postMessage(resubmitdata, '*');
 }
 
 

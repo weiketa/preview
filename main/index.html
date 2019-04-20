@@ -99,6 +99,91 @@
         #holder.hover {
             border-color: #2ab0cb;
         }
+        /* ==========================热更新========================start */
+    #update-info{
+          position: absolute;
+          width: 600px;
+          height: 400px;
+          top:50%;
+          left:50%;
+          margin-top:-200px;
+          margin-left:-300px;
+          background: #ffffff;
+          border: 1px solid #C0C0C0;
+          font-size: 14px;
+          display: none;
+          z-index: 99;
+        }
+        .update-btn{
+          background: #3399FF;
+          width: 100px;
+          height: 30px;
+          color: #fff;
+          line-height: 30px;
+          text-align: center;
+          border-radius: 3px; 
+          cursor: pointer;
+          user-select: none; 
+          float: right;
+          margin-right:10px;
+          margin-top:15px;  
+        }
+        .ignore-btn{
+          background: #ffffff;
+          width: 100px;
+          height: 30px;
+          line-height: 30px;
+          text-align: center;
+          border-radius: 3px; 
+          cursor: pointer;
+          user-select: none; 
+          float: right;
+          border: 1px solid #C0C0C0;
+          margin-top:15px;
+          margin-right:50px;
+          color: #333333;
+        }
+        #update-info img{
+          position: absolute;
+          right: 205px;
+          bottom:19px;
+          display: none;
+          cursor: pointer;
+        }
+        .update-content{
+          margin: 0 50px;
+          padding: 10px;
+          height: 230px;
+          border: 1px solid #C0C0C0;
+          font-size: 14px; 
+          color: #777777;
+          line-height: 20px;
+        }
+        .update-title{
+          font-size:14px;
+          font-weight: bold; 
+          padding: 10px 50px;
+        }
+        .update-header{
+          height: 25px;
+          background: #f5f5f5;
+          text-align: center;
+          line-height: 25px;
+          font-weight: bold;
+          color: #777777;
+          font-size: 16px;
+        }
+        #mask{
+          position: absolute;
+          background:rgba(0, 0, 0, 0.8);
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          display: none;
+        }
+    /* ==========================热更新========================end */
     </style>
 </head>
 <body>
@@ -112,7 +197,19 @@
         return false;
     };
 </script>
-
+<!-- ==========================热更新========================start -->
+<div id="mask"></div>
+<div id="update-info">
+  <div class="update-header">更新</div>
+  <p class="update-title">新版本功能</p>
+  <p class="update-content">无更新内容</p>
+  <div class="update-footer">
+    <div class="ignore-btn">跳过当前版本</div>
+    <div class="update-btn">立即更新</div>
+    <img src="../asset/loading.gif"/>
+  </div> 
+</div>
+<!-- ==========================热更新========================end -->
 <div class="header">
     <img src="../asset/logo.png">
     <span class="header-version vertical-middle">Electron:<script>document.write(process.versions.electron)</script>1.3.1</span>
@@ -130,6 +227,13 @@
 </div>
 </body>
 <script>
+    /* =======================热更新==================start */
+    window.$ = window.jQuery = require("jquery");
+        require('jquery.nicescroll');
+        $(function() {  
+            $(".update-content").niceScroll({cursorcolor:"#C0C0C0"});
+        });
+    /* =======================热更新==================end */
     // You can also require other files to run in this process
     require('./renderer.js')
 </script>
