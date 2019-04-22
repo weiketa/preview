@@ -5,8 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "pack:mac": "electron-packager . app --darwin --out dist --arch=x64 --overwrite --icon assets/app.icns",
-    "pack:win": "electron-packager . app --win --out dist --arch=x64 --overwrite --icon assets/app.ico"
+    "pack:mac": "electron-packager . app --darwin --out dist --arch=x64 --overwrite --icon asset/app.icns",
+    "pack:win": "electron-packager . app --win --out dist --arch=x64 --overwrite --icon asset/app.ico"
   },
   "keywords": [
     "Electron",
@@ -26,7 +26,8 @@
     "rimraf": "^2.5.4",
     "unzip": "^0.1.11",
     "jquery": "^3.3.1",
-    "jquery.nicescroll": "^3.7.6"
+    "jquery.nicescroll": "^3.7.6",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "electron": "^4.1.4",
