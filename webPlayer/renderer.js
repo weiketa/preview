@@ -198,7 +198,7 @@ if (fs.existsSync(`${webpath}/infos.txt`)) {
     select.style.display = 'none';
 
 } else {
-
+    select.style.display = 'none';
 }
 
 function showSideBarContent(){

@@ -123,6 +123,7 @@ let version = remote.app.getVersion();
 ipcRenderer.on('info',(event,info,detail)=>{
     switch(info){
         case "show_update":
+        document.querySelector(".latest").style.display = 'none';
         document.querySelector("#update-info").style.display = "block";
         document.querySelector("#mask").style.display = 'block';
         let content = JSON.parse(detail);
@@ -145,7 +146,7 @@ ipcRenderer.on('info',(event,info,detail)=>{
 
 window.onload = function(){
     checkUpdate();
-    // document.querySelector(".version").innerText = "v"+version;
+    document.querySelector(".header-version").innerText = "v"+version;
     document.querySelector("#update-info .update-btn").addEventListener("click",startUpdate);
     document.querySelector("#update-info .ignore-btn").addEventListener("click",ignoreUpdate);
 }
