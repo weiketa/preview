@@ -13,6 +13,7 @@ const resultTable = document.querySelector('#result table');
 const result = document.querySelector("#result");
 
 const sideBarItems = [];
+const directories = [];
 let coursewares = [];
 let resultArr = [];
 let coursewareIndex = 0;
@@ -141,9 +142,9 @@ function showResultData(){
             let td3 = document.createElement('td');
             let td4 = document.createElement('td');
             td1.innerText = v.id;
-            td2.innerText = v.isRight;
-            td3.innerText = v.userAnswerContent;
-            td4.innerText = v.rightAnswerContent;
+            td2.innerText = v.userAnswerContent;
+            td3.innerText = v.rightAnswerContent;
+            td4.innerText = v.isRight;
             tr.appendChild(td1);
             tr.appendChild(td2);
             tr.appendChild(td3);
@@ -160,10 +161,14 @@ function clearResultData(){
     const trs = document.querySelectorAll('#result tr');
     trs.forEach((v,i)=>{
         if(i!==0){
-            console.log('remove')
             resultTable.removeChild(v);
         }
     })
+}
+
+function hideResultData(){
+    clearResultData();
+    result.style.top = '-145px';
 }
 
 if (fs.existsSync(`${webpath}/infos.txt`)) {
@@ -202,9 +207,16 @@ function showSideBarContent(){
             console.log(err);
         }else{
             files.forEach((file,i)=>{
+                if(fs.statSync(path.join(webpath,file)).isDirectory()){
+                    directories.push(file);
+                }
+            })
+            directories.forEach((file,i)=>{
                 let item = document.createElement('div');
                 sideBarItems.push(item);
                 item.onclick = (e)=>{
+                    p.innerHTML = `${i + 1}/${sideBarItems.length}`;
+                    hideResultData();
                     play(path.join(url,file,'index.html'));
                     item.className = 'sideBarItem itemSelected';
                     clearOtherItemsStyle(i);
@@ -218,6 +230,7 @@ function showSideBarContent(){
                 item.innerText = file;
                 sideBar.appendChild(item);
             })
+            p.innerHTML = `1/${sideBarItems.length}`;
         }
     })
 }

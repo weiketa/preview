@@ -17,7 +17,7 @@ function createWindow() {
     mainWindow.loadURL(`file://${__dirname}/main/index.html`);
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 
     require('./util/server').createServer();
 
