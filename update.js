@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const request = require('request');
 
-const baseUrl = 'http://icourse.xesimg.com/zukegongju/';
+const baseUrl = 'http://icourse.xesimg.com/yulangongju/';
 let mainInfo = null;
 let mainApp = null;
 let newVersionInfo = null;
