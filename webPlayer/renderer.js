@@ -110,7 +110,7 @@ window.addEventListener('message', function (e) {
                 let userAnswerContent  = answer.userAnswerContent.map(function(item){return item.text}).join("，");
                 let rightAnswerContent = answer.rightAnswerContent.map(function(item){return item.text}).join("，");
                 let isRight = answer.isRight.map(function(item){return item == 1 ? item = '对' :item = "错"}).join("，");
-                let id  = answer.id+1;
+                let id  = index+1;
                 resultArr.push({
                                 "id":id,
                                 "userAnswerContent":userAnswerContent,
