@@ -15,7 +15,7 @@ const holder = document.getElementById('holder');
 
 let webPlayer;
 let history = require('../history');
-let ul = document.querySelector('.container >ul')
+let ul = document.querySelector('.container >ul');
 
 history.init();
 refreshHistoryDom();
@@ -60,9 +60,13 @@ holder.ondrop = function (e) {
     e.preventDefault();
 
     var f = e.dataTransfer.files[0];
+    fileSrc = f.path;
+    filePath = f.path.replace(/\\/g,'/');
+    require('./tool');
     
-    open(f.path);
-
+    setTimeout(() => {
+        open(f.path);
+    }, 1500);
 
     return false;
 };
@@ -148,7 +152,7 @@ window.onload = function(){
     checkUpdate();
     document.querySelector(".header-version").innerText = "v"+version;
     document.querySelector("#update-info .update-btn").addEventListener("click",startUpdate);
-    document.querySelector("#update-info .ignore-btn").addEventListener("click",ignoreUpdate);
+    // document.querySelector("#update-info .ignore-btn").addEventListener("click",ignoreUpdate);
 }
 
 function checkUpdate(){

@@ -99,6 +99,19 @@
         #holder.hover {
             border-color: #2ab0cb;
         }
+        #message{
+            position: absolute;
+            width: 200px;
+            height: 50px;
+            background: white;
+            top:-60px;
+            left:50%;
+            margin-left: -100px;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 50px;
+            transition: top 1s;
+        }
         /* ==========================热更新========================start */
     #update-info{
           position: absolute;
@@ -210,6 +223,7 @@
   </div> 
 </div>
 <!-- ==========================热更新========================end -->
+<div id="message">添加viewport完成</div>
 <div class="header">
     <img src="../asset/logo.png">
     <span class="header-version vertical-middle">v1.0.0</span>
@@ -229,6 +243,8 @@
 </div>
 </body>
 <script>
+    var filePath = '';
+    var fileSrc;
     /* =======================热更新==================start */
     window.$ = window.jQuery = require("jquery");
         require('jquery.nicescroll');
