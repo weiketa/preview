@@ -3,21 +3,32 @@ let arr = [];
 let extArr = ['html','js','css','scss','less','json','md','txt','TXT','xml','XML','ttf','TTF','eot','otf','woff','png','PNG','jpg','PNG','gif','GIF','svg','atlas','mp3','ogg','wav','WAV','obj','OBJ','md5','MD5','mp4','MP4','avi','AVI','flv','webm','swf','atz','spz'];
 let fileArr = [];
 function getIndex(path){
-    fs.readdirSync(path).forEach(function(item,index){
-        if(fs.statSync(path+'/'+item).isDirectory()){
-            getIndex(path+'/'+item);
+    try {
+        fs.readdirSync(path).forEach(function(item,index){
+            if(fs.statSync(path+'/'+item).isDirectory()){
+                getIndex(path+'/'+item);
+            }else{
+                if(item === 'index.html'){
+                    arr.push(path+'/'+item);
+                }
+                if(extArr.indexOf(item.split('.')[item.split('.').length-1]) === -1){
+                    fileArr.push(path+'/'+item);
+                }
+                if(/.*[\u4e00-\u9fa5]+.*/.test(item)){
+                    alert('文件名包含中文字符，请检查！');
+                    throw new Error("ending");
+                }
+            }
+        })
+    } catch (e) {
+        if(e.message == "ending"){
+            window.publishState = 'chinese';
         }else{
-            if(item === 'index.html'){
-                arr.push(path+'/'+item);
-            }
-            if(extArr.indexOf(item.split('.')[item.split('.').length-1]) === -1){
-                fileArr.push(path+'/'+item);
-            }
-            if(/.*[\u4e00-\u9fa5]+.*/.test(item)){
-                alert('文件名包含中文字符，请检查！');
-            }
+            console.log(e.message);
         }
-    })
+
+    }
+    
 }
 
 function addMetaTag(){

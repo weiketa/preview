@@ -23,6 +23,7 @@ let resultArr = [];
 let coursewareIndex = 0;
 let submitFlag = 0;
 
+
 Mousetrap.bindGlobal('left', function () {
     if (coursewares.length <= 0) return
     pre();
@@ -139,9 +140,12 @@ publish.onclick = ()=>{
         title:"保存路径",
         properties:['openDirectory']
     },(filePaths)=>{
-
+        window.publishState = '';
         filePath = publishPath.replace(/\\/g,'/');
         getIndex(filePath);
+        if(window.publishState === 'chinese'){
+            return;
+        }
         addMetaTag();
         cleanFiles();
 
