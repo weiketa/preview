@@ -11,13 +11,18 @@
         }
 
         #sideBar{
-            width: 10%;
-            height: calc(100vh);
+            width: 100%;
+            height: calc(100% - 30px);
             overflow-y:auto;
             overflow-x:hidden;
-            float: left; 
         }
 
+        #sideBarWrapper{
+            width: 10%;
+            height: calc(100vh);
+            float: left;
+            text-align: center;
+        }
         .sideBarItem{
             height: 2rem;
             width: 100%;
@@ -32,7 +37,16 @@
             background: #2073fe;
             color: white;
         }
-
+        #publish{
+            height: 30px;
+            width: 100%;
+            line-height: 30px;
+            user-select: none;
+            background: #2073fe;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+        }
         iframe {
             width: 90%;
             height: calc(100vh);
@@ -108,14 +122,17 @@
     <script src="mousetrap-global-bind.min.js"></script>
 </head>
 <body>
-    <div id="sideBar"></div>
+    <div id="sideBarWrapper">
+        <div id="sideBar"></div>
+        <div id="publish">发布</div>
+    </div>
     <div id="result">
             <table>
                 <tr>
                     <th>题号</th>
+                    <th>结果</th>
                     <th>你的答案</th>
                     <th>正确答案</th>
-                    <th>结果</th>
                 </tr>
             </table>
     </div>

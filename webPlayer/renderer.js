@@ -1,7 +1,10 @@
-const {app} = require('electron').remote;
+const {app, dialog} = require('electron').remote;
 const webpath = require('../config').webPath;
+const publishPath = require('../config').publishPath;
 const fs = require('fs');
 const path = require('path');
+const fsExtra = require('fs-extra');
+const {getIndex,addMetaTag,cleanFiles} = require('../main/tool');
 
 const url = require('../config').serverUrl;
 const iframe = document.querySelector('iframe');
@@ -11,6 +14,7 @@ const submit = document.querySelector('div>button');
 const sideBar = document.querySelector('#sideBar');
 const resultTable = document.querySelector('#result table');
 const result = document.querySelector("#result");
+const publish = document.querySelector("#publish");
 
 const sideBarItems = [];
 const directories = [];
@@ -130,6 +134,42 @@ submit.onclick = () => {
     submitData();
 }
 
+publish.onclick = ()=>{
+    dialog.showOpenDialog({
+        title:"保存路径",
+        properties:['openDirectory']
+    },(filePaths)=>{
+
+        filePath = publishPath.replace(/\\/g,'/');
+        getIndex(filePath);
+        addMetaTag();
+        cleanFiles();
+
+
+
+        createPublishFiles(filePaths[0]);
+    });
+}
+
+function createPublishFiles(filepath){
+    try {
+        fs.readdirSync(publishPath).forEach((v,i)=>{
+            if(fs.statSync(path.join(publishPath,v)).isDirectory()){
+                let dirname = i<9? "0"+(i+1):""+(i+1);
+                fsExtra.copySync(path.join(publishPath,v), path.join(filepath,dirname));
+            }
+        })
+
+        alert('发布完成');
+    } catch (err) {
+        throw err;
+    }
+}
+
+function rename(path){
+
+}
+
 function showResultData(){
     clearResultData();
     if(resultArr.length>0){
@@ -142,9 +182,9 @@ function showResultData(){
             let td3 = document.createElement('td');
             let td4 = document.createElement('td');
             td1.innerText = v.id;
-            td2.innerText = v.userAnswerContent;
-            td3.innerText = v.rightAnswerContent;
-            td4.innerText = v.isRight;
+            td2.innerText = v.isRight;
+            td3.innerText = v.userAnswerContent;
+            td4.innerText = v.rightAnswerContent;
             tr.appendChild(td1);
             tr.appendChild(td2);
             tr.appendChild(td3);

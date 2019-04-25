@@ -4,6 +4,8 @@ const fs = require('fs');
 const ftp = require('ftp');
 
 const webpath = require('../config').webPath;
+const publishPath = require('../config').publishPath;
+const rimraf = require('rimraf');
 
 module.exports = {
     /**
@@ -23,6 +25,20 @@ module.exports = {
         } catch (err) {
             throw err;
         }
+    },
+
+    copyToPublish(filepath){
+        rimraf(publishPath,[`rmdir`],err=>{
+            if (err) {
+                throw err;
+            }
+            try {
+                fsExtra.copySync(filepath, publishPath)
+            } catch (err) {
+                throw err;
+            }
+        })
+        
     }
 }
 

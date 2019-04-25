@@ -19,33 +19,37 @@ function getIndex(path){
         }
     })
 }
-getIndex(filePath);
 
-arr.forEach((item)=>{
-    let html=fs.readFileSync(item).toString('utf8');
-    if(html.indexOf('viewport') === -1){
-        htmlArr = html.split('<head>');
-        if(htmlArr.length === 1){
-            htmlArr = html.split('<head lang="en">');
+function addMetaTag(){
+    arr.forEach((item)=>{
+        let html=fs.readFileSync(item).toString('utf8');
+        if(html.indexOf('viewport') === -1){
+            htmlArr = html.split('<head>');
+            if(htmlArr.length === 1){
+                htmlArr = html.split('<head lang="en">');
+            }
+            let htmlStr = htmlArr[0]+'<head><meta name="viewport" content="width=device-width,initial-scale=1.0,maximu-scale=1.0 ,user-scalable=no">'+htmlArr[1];
+            fs.writeFileSync(item, htmlStr);
         }
-        let htmlStr = htmlArr[0]+'<head><meta name="viewport" content="width=device-width,initial-scale=1.0,maximu-scale=1.0 ,user-scalable=no">'+htmlArr[1];
-        fs.writeFileSync(item, htmlStr);
-    }
-});
+    });
+}
 
-fileArr.forEach((item)=>{
-    fs.unlinkSync(item);
-});
+function cleanFiles(){
+    fileArr.forEach((item)=>{
+        fs.unlinkSync(item);
+    });
+}
 
-filePath = '';
+exports.getIndex = getIndex;
+exports.addMetaTag = addMetaTag;
+exports.cleanFiles = cleanFiles;
 
-const message = document.querySelector('#message');
-message.style.top = '10px';
-setTimeout(() => {
-    message.style.top = '-60px';
-}, 1000);
-// const ipc = require('electron').ipcRenderer;
-// setTimeout(()=>{
-//     alert('已完成');
-//     ipc.send('news');
-// },1000);
+
+// filePath = '';
+
+// const message = document.querySelector('#message');
+// message.style.top = '10px';
+// setTimeout(() => {
+//     message.style.top = '-60px';
+// }, 1000);
+

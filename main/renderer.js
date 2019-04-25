@@ -60,13 +60,8 @@ holder.ondrop = function (e) {
     e.preventDefault();
 
     var f = e.dataTransfer.files[0];
-    fileSrc = f.path;
-    filePath = f.path.replace(/\\/g,'/');
-    require('./tool');
     
-    setTimeout(() => {
-        open(f.path);
-    }, 1500);
+    open(f.path);
 
     return false;
 };
@@ -79,6 +74,7 @@ function open(url) {
         }
         if (fs.statSync(url).isDirectory()) {
             file.copyToWeb(url)
+            file.copyToPublish(url);
         } else {
             let zip = new AdmZip(url);
             try {
