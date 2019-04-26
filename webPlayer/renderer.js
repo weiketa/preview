@@ -359,8 +359,8 @@ function submitData() {
     if (submitFlag === 1) {
         return;
     }
-    // let data = {type: 'resubmitAnswer'};
-    // iframe.contentWindow.postMessage(data, '*');
+    let data = {type: 'resubmitAnswer'};
+    iframe.contentWindow.postMessage(data, '*');
 
     let resubmitdata = {type: 'getAnswer'};
     iframe.contentWindow.postMessage(resubmitdata, '*');
