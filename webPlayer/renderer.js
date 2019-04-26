@@ -1,4 +1,5 @@
 const {app, dialog} = require('electron').remote;
+const {ipcRenderer} = require('electron');
 const webpath = require('../config').webPath;
 const publishPath = require('../config').publishPath;
 const fs = require('fs');
@@ -22,6 +23,8 @@ let coursewares = [];
 let resultArr = [];
 let coursewareIndex = 0;
 let submitFlag = 0;
+let basename;
+let isOne = false;
 
 
 Mousetrap.bindGlobal('left', function () {
@@ -35,6 +38,9 @@ Mousetrap.bindGlobal('right', function () {
     return false;
 })
 
+ipcRenderer.on('bn',function(event,args){
+    basename = args;
+})
 
 // iframe传参
 window.addEventListener('message', function (e) {
@@ -136,26 +142,56 @@ submit.onclick = () => {
 }
 
 publish.onclick = ()=>{
-    dialog.showOpenDialog({
-        title:"保存路径",
-        properties:['openDirectory']
-    },(filePaths)=>{
-        window.publishState = '';
-        filePath = publishPath.replace(/\\/g,'/');
-        getIndex(filePath);
-        if(window.publishState === 'chinese'){
-            return;
-        }
-        addMetaTag();
-        cleanFiles();
+    dialog.showMessageBox({
+        type:'info',
+        title:'提示',
+        message:'是否需要课件按序号更名？',
+        buttons:['是','否']
+    },(index)=>{
+        dialog.showOpenDialog({
+            title:"保存路径",
+            properties:['openDirectory']
+        },(filePaths)=>{
+            if(!filePaths){
+                return;
+            }
+            
+            window.publishState = '';
+            filePath = publishPath.replace(/\\/g,'/');
+            getIndex(filePath);
+            if(window.publishState === 'chinese'){
+                return;
+            }
+            addMetaTag();
+            cleanFiles();
 
-
-
-        createPublishFiles(filePaths[0]);
-    });
+            if(index === 0 && !isOne){
+                createPublishFilesByOrder(filePaths[0]);
+            }
+            if(index === 0 && isOne){
+                createOnePublishByOrder(filePaths[0]);
+            }
+            if(index === 1 && !isOne){
+                createPublishFiles(filePaths[0]);
+            }
+            if(index === 1 && isOne){
+                createOnePublish(filePaths[0]);
+            }
+            alert('发布完成');
+        });
+    })
+    
 }
 
-function createPublishFiles(filepath){
+function createOnePublishByOrder(filepath){
+    fsExtra.copySync(publishPath,path.join(filepath,'00')); 
+}
+
+function createOnePublish(filepath){
+    fsExtra.copySync(publishPath,path.join(filepath,basename)); 
+}
+
+function createPublishFilesByOrder(filepath){
     try {
         fs.readdirSync(publishPath).forEach((v,i)=>{
             if(fs.statSync(path.join(publishPath,v)).isDirectory()){
@@ -164,14 +200,13 @@ function createPublishFiles(filepath){
             }
         })
 
-        alert('发布完成');
     } catch (err) {
         throw err;
     }
 }
 
-function rename(path){
-
+function createPublishFiles(filepath){
+    fsExtra.copySync(publishPath,filepath); 
 }
 
 function showResultData(){
@@ -237,12 +272,13 @@ if (fs.existsSync(`${webpath}/infos.txt`)) {
     pre();
 
 } else if (fs.existsSync(`${webpath}/index.html`)) {
+    isOne = true;
     play(`${url}/index.html`);
-
     select.style.display = 'none';
 
 } else {
     select.style.display = 'none';
+    showSideBarContent();
 }
 
 function showSideBarContent(){
@@ -279,7 +315,7 @@ function showSideBarContent(){
     })
 }
 
-showSideBarContent();
+
 
 function clearOtherItemsStyle(index){
     sideBarItems.forEach((v,i)=>{

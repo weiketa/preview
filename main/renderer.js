@@ -16,6 +16,7 @@ const holder = document.getElementById('holder');
 let webPlayer;
 let history = require('../history');
 let ul = document.querySelector('.container >ul');
+let basename;
 
 history.init();
 refreshHistoryDom();
@@ -60,6 +61,7 @@ holder.ondrop = function (e) {
     e.preventDefault();
 
     var f = e.dataTransfer.files[0];
+    basename = path.basename(f.path);
     
     open(f.path);
 
@@ -109,6 +111,10 @@ function createWebPlayer() {
     webPlayer.on('close', () => {
         history.write();
         webPlayer = null;
+    })
+
+    webPlayer.webContents.on('did-finish-load', () => {
+        webPlayer.webContents.send('bn',basename);
     })
 
     webPlayer.loadURL(`file://${p}`)
