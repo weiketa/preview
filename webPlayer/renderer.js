@@ -145,7 +145,7 @@ publish.onclick = ()=>{
     dialog.showMessageBox({
         type:'info',
         title:'提示',
-        message:'是否需要课件按序号更名？',
+        message:'即将对课件进行处理，是否需要课件按序号更名？',
         buttons:['是','否']
     },(index)=>{
         dialog.showOpenDialog({
@@ -155,7 +155,6 @@ publish.onclick = ()=>{
             if(!filePaths){
                 return;
             }
-            
             window.publishState = '';
             filePath = publishPath.replace(/\\/g,'/');
             getIndex(filePath);
@@ -177,10 +176,13 @@ publish.onclick = ()=>{
             if(index === 1 && isOne){
                 createOnePublish(filePaths[0]);
             }
-            alert('发布完成');
+            dialog.showMessageBox({
+                type:'info',
+                title:'信息',
+                message:'课件导出完成！'
+            })
         });
     })
-    
 }
 
 function createOnePublishByOrder(filepath){

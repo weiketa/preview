@@ -36,6 +36,7 @@ function refreshHistoryDom() {
         li.onclick = (e) => {
 
             if (fs.existsSync(value)) {
+                basename = path.basename(value);
                 open(value);
             } else {
                 history.remove(value);
