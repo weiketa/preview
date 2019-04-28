@@ -25,6 +25,7 @@ let coursewareIndex = 0;
 let submitFlag = 0;
 let basename;
 let isOne = false;
+let oneItem;
 
 
 Mousetrap.bindGlobal('left', function () {
@@ -40,6 +41,9 @@ Mousetrap.bindGlobal('right', function () {
 
 ipcRenderer.on('bn',function(event,args){
     basename = args;
+    if(oneItem){
+        oneItem.innerText = basename;
+    }
 })
 
 // iframe传参
@@ -251,36 +255,49 @@ function hideResultData(){
     clearResultData();
     result.style.top = '-145px';
 }
-
-if (fs.existsSync(`${webpath}/infos.txt`)) {
-    let infos = fs.readFileSync(`${webpath}/infos.txt`);
-    infos = JSON.parse(infos);
-    coursewares = infos.info;
-
-    coursewares.forEach((value, index, arr) => {
-        let option = document.createElement('option');
-        option.setAttribute('value', index);
-        option.innerHTML = value.url;
-        select.appendChild(option);
-    })
-
-    select.style.display = 'inline';
-
-    select.onchange = () => {
-        coursewareIndex = select.selectedIndex;
-        current();
+window.onload = function(){
+    if (fs.existsSync(`${webpath}/infos.txt`)) {
+        let infos = fs.readFileSync(`${webpath}/infos.txt`);
+        infos = JSON.parse(infos);
+        coursewares = infos.info;
+    
+        coursewares.forEach((value, index, arr) => {
+            let option = document.createElement('option');
+            option.setAttribute('value', index);
+            option.innerHTML = value.url;
+            select.appendChild(option);
+        })
+    
+        select.style.display = 'inline';
+    
+        select.onchange = () => {
+            coursewareIndex = select.selectedIndex;
+            current();
+        }
+    
+        pre();
+    
+    } else if (fs.existsSync(`${webpath}/index.html`)) {
+        isOne = true;
+        play(`${url}/index.html`);
+        select.style.display = 'none';
+        showSideBarOne();
+    
+    } else {
+        select.style.display = 'none';
+        showSideBarContent();
     }
+}
 
-    pre();
 
-} else if (fs.existsSync(`${webpath}/index.html`)) {
-    isOne = true;
-    play(`${url}/index.html`);
-    select.style.display = 'none';
-
-} else {
-    select.style.display = 'none';
-    showSideBarContent();
+function showSideBarOne(){
+    oneItem = document.createElement('div');
+    oneItem.className = 'sideBarItem itemSelected';
+    sideBar.appendChild(oneItem);
+    oneItem.onclick = (e)=>{
+        hideResultData();
+        play(path.join(url,'index.html'));   
+    }
 }
 
 function showSideBarContent(){
