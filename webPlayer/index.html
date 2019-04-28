@@ -66,6 +66,7 @@
             bottom: 0;
             right: 0;
             margin: 0;
+            z-index: 11;
         }
 
         #controllerBar >p{
@@ -82,6 +83,17 @@
             background: #2073fe;
             top:-154px;
             transition: top 1s;
+            z-index: 10;
+        }
+        #mask{
+            position: absolute;
+            left: calc(10vw);
+            width: 90%;
+            background: rgba(0,0,0,0.3);
+            top:0;
+            height: 100%;
+            z-index: 9;
+            display: none;
         }
         #result table{
             width:100%;
@@ -139,6 +151,7 @@
                 </tr>
             </table>
     </div>
+    <div id="mask"></div>
     <iframe></iframe>
     <div id="controllerBar">
         <p>1/1</p>

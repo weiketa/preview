@@ -105,7 +105,9 @@ function createWebPlayer() {
     let p = path.resolve(__dirname, `../webPlayer/index.html`);
 
     if (webPlayer) {
-        webPlayer.close()
+        alert('已经打开窗口');
+        return
+        // webPlayer.close()
     }
 
     webPlayer = new BrowserWindow({width: 800, height: 600});
