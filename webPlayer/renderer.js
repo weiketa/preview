@@ -328,6 +328,7 @@ function showSideBarContent(){
                 sideBarItems.push(item);
                 item.onclick = (e)=>{
                     p.innerHTML = `${i + 1}/${sideBarItems.length}`;
+                    mask.style.display = 'none'
                     hideResultData();
                     play(path.join(url,file,'index.html'));
                     item.className = 'sideBarItem itemSelected';

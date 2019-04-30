@@ -11,7 +11,7 @@ function getIndex(path){
                 if(item === 'index.html'){
                     arr.push(path+'/'+item);
                 }
-                if(extArr.indexOf(item.split('.')[item.split('.').length-1]) === -1){
+                if(extArr.indexOf(item.split('.')[item.split('.').length-1]) === -1||item.indexOf('._')>-1){
                     fileArr.push(path+'/'+item);
                 }
                 if(/.*[\u4e00-\u9fa5]+.*/.test(item)){
