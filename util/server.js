@@ -20,13 +20,14 @@ module.exports = {
             pathname = decodeURIComponent(pathname);
             try {
                 resStr = fs.readFileSync(`${webPath}${pathname}`);
+                res.writeHead(200, {'Content-Type': ct});
+                res.write(resStr);
+                res.end();
             } catch (err) {
-                throw err;
+                res.end();
             }
 
-            res.writeHead(200, {'Content-Type': ct});
-            res.write(resStr);
-            res.end();
+            
 
         });
         server.on('clientError', (err, socket) => {

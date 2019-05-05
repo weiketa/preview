@@ -212,7 +212,6 @@ function createPublishFilesByOrder(filepath){
             if(fs.statSync(path.join(publishPath,v)).isDirectory()){
                 let dirname = i<9? "0"+(i+1):""+(i+1);
                 // fsExtra.rmdirSync(path.join(filepath,dirname));
-                console.log(path.join(filepath,dirname));
                 fsExtra.copySync(path.join(publishPath,v), path.join(filepath,dirname));
             }
         })
