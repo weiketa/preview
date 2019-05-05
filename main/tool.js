@@ -11,7 +11,7 @@ function getIndex(path){
                 if(item === 'index.html'){
                     arr.push(path+'/'+item);
                 }
-                if(extArr.indexOf(item.split('.')[item.split('.').length-1]) === -1){
+                if(extArr.indexOf(item.split('.')[item.split('.').length-1]) === -1||item.indexOf('._')>-1){
                     fileArr.push(path+'/'+item);
                 }
                 if(/.*[\u4e00-\u9fa5]+.*/.test(item)){
@@ -34,7 +34,9 @@ function getIndex(path){
 function addMetaTag(){
     arr.forEach((item)=>{
         let html=fs.readFileSync(item).toString('utf8');
-        if(html.indexOf('viewport') === -1){
+        let reg = /<meta[\W\w]*viewport[\W\w]*user-scalable=no/;
+        console.log(reg.test(html));
+        if(!reg.test(html)){
             htmlArr = html.split('<head>');
             if(htmlArr.length === 1){
                 htmlArr = html.split('<head lang="en">');

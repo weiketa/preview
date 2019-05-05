@@ -16,6 +16,7 @@ const sideBar = document.querySelector('#sideBar');
 const resultTable = document.querySelector('#result table');
 const result = document.querySelector("#result");
 const publish = document.querySelector("#publish");
+const mask = document.querySelector("#mask");
 
 const sideBarItems = [];
 const directories = [];
@@ -143,15 +144,20 @@ window.addEventListener('message', function (e) {
 
 submit.onclick = () => {
     submitData();
-}
+    mask.style.display = 'block'
+};
 
 publish.onclick = ()=>{
     dialog.showMessageBox({
         type:'info',
         title:'提示',
         message:'即将对课件进行处理，是否需要课件按序号更名？',
-        buttons:['是','否']
+        buttons:['是','否'],
+        cancelId:2
     },(index)=>{
+        if(index === 2){
+            return
+        }
         dialog.showOpenDialog({
             title:"保存路径",
             properties:['openDirectory']
@@ -190,18 +196,23 @@ publish.onclick = ()=>{
 }
 
 function createOnePublishByOrder(filepath){
-    fsExtra.copySync(publishPath,path.join(filepath,'00')); 
+    fsExtra.emptyDirSync(path.join(filepath,'01'));
+    fsExtra.copySync(publishPath,path.join(filepath,'01'));
 }
 
 function createOnePublish(filepath){
-    fsExtra.copySync(publishPath,path.join(filepath,basename)); 
+    fsExtra.emptyDirSync(path.join(filepath,basename));
+    fsExtra.copySync(publishPath,path.join(filepath,basename));
 }
 
 function createPublishFilesByOrder(filepath){
     try {
+        fsExtra.emptyDirSync(filepath);
         fs.readdirSync(publishPath).forEach((v,i)=>{
             if(fs.statSync(path.join(publishPath,v)).isDirectory()){
                 let dirname = i<9? "0"+(i+1):""+(i+1);
+                // fsExtra.rmdirSync(path.join(filepath,dirname));
+                console.log(path.join(filepath,dirname));
                 fsExtra.copySync(path.join(publishPath,v), path.join(filepath,dirname));
             }
         })
@@ -210,9 +221,10 @@ function createPublishFilesByOrder(filepath){
         throw err;
     }
 }
-
 function createPublishFiles(filepath){
-    fsExtra.copySync(publishPath,filepath); 
+    // fsExtra.emptyDirSync(filepath);
+    fsExtra.copySync(publishPath,filepath);
+    path.join(filepath)
 }
 
 function showResultData(){
@@ -296,7 +308,8 @@ function showSideBarOne(){
     sideBar.appendChild(oneItem);
     oneItem.onclick = (e)=>{
         hideResultData();
-        play(path.join(url,'index.html'));   
+        play(path.join(url,'index.html'));
+        mask.style.display = 'none';
     }
 }
 
@@ -315,6 +328,7 @@ function showSideBarContent(){
                 sideBarItems.push(item);
                 item.onclick = (e)=>{
                     p.innerHTML = `${i + 1}/${sideBarItems.length}`;
+                    mask.style.display = 'none'
                     hideResultData();
                     play(path.join(url,file,'index.html'));
                     item.className = 'sideBarItem itemSelected';
