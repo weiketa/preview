@@ -11,6 +11,10 @@ const BrowserWindow = electron.BrowserWindow;
 
 let mainWindow;
 
+let flashPath = app.getPath('pepperFlashSystemPlugin');
+if(flashPath){
+    app.commandLine.appendSwitch('ppapi-flash-path',flashPath);
+}
 
 function createWindow() {
     mainWindow = new BrowserWindow({width: 800, height: 600});

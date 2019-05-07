@@ -110,7 +110,8 @@ function createWebPlayer() {
         // webPlayer.close()
     }
 
-    webPlayer = new BrowserWindow({width: 800, height: 600});
+    webPlayer = new BrowserWindow({width: 800, height: 600,'webPreferences': {'plugins': true}});
+    
     webPlayer.on('close', () => {
         history.write();
         webPlayer = null;
