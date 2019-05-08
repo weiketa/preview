@@ -196,22 +196,18 @@ publish.onclick = ()=>{
 }
 
 function createOnePublishByOrder(filepath){
-    fsExtra.emptyDirSync(path.join(filepath,'01'));
     fsExtra.copySync(publishPath,path.join(filepath,'01'));
 }
 
 function createOnePublish(filepath){
-    fsExtra.emptyDirSync(path.join(filepath,basename));
     fsExtra.copySync(publishPath,path.join(filepath,basename));
 }
 
 function createPublishFilesByOrder(filepath){
     try {
-        fsExtra.emptyDirSync(filepath);
         fs.readdirSync(publishPath).forEach((v,i)=>{
             if(fs.statSync(path.join(publishPath,v)).isDirectory()){
                 let dirname = i<9? "0"+(i+1):""+(i+1);
-                // fsExtra.rmdirSync(path.join(filepath,dirname));
                 fsExtra.copySync(path.join(publishPath,v), path.join(filepath,dirname));
             }
         })
@@ -221,9 +217,7 @@ function createPublishFilesByOrder(filepath){
     }
 }
 function createPublishFiles(filepath){
-    // fsExtra.emptyDirSync(filepath);
     fsExtra.copySync(publishPath,filepath);
-    path.join(filepath)
 }
 
 function showResultData(){
