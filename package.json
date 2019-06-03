@@ -1,6 +1,6 @@
 {
   "name": "simpleWebPlayer",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "A simple web player",
   "main": "main.js",
   "scripts": {

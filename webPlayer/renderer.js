@@ -5,7 +5,7 @@ const publishPath = require('../config').publishPath;
 const fs = require('fs');
 const path = require('path');
 const fsExtra = require('fs-extra');
-const {getIndex,addMetaTag,cleanFiles} = require('../main/tool');
+const {getIndex,addMetaTag,cleanFiles,checkChineseFile} = require('../main/tool');
 
 const url = require('../config').serverUrl;
 const iframe = document.querySelector('iframe');
@@ -168,11 +168,14 @@ publish.onclick = ()=>{
             window.publishState = '';
             filePath = publishPath.replace(/\\/g,'/');
             getIndex(filePath);
+            addMetaTag();
+            cleanFiles();
+
+            checkChineseFile(filePath);
             if(window.publishState === 'chinese'){
                 return;
             }
-            addMetaTag();
-            cleanFiles();
+            
 
             if(index === 0 && !isOne){
                 createPublishFilesByOrder(filePaths[0]);
