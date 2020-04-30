@@ -25,7 +25,7 @@
     "mousetrap": "^1.6.1",
     "rimraf": "^2.5.4",
     "unzip": "^0.1.11",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "jquery.nicescroll": "^3.7.6",
     "request": "^2.88.0"
   },
